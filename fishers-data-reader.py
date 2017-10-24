@@ -30,7 +30,7 @@ with open('./data/fishers-data-set.csv') as csvfile:
         sepal_w = row[1]
         petal_l = row[2]
         petal_w = row[3]
-        iris_c = [4]
+        iris_c = row[4]
 
         # appending the values that are read in from the files to arrays
         sepal_length.append(sepal_l)
@@ -38,6 +38,9 @@ with open('./data/fishers-data-set.csv') as csvfile:
         petal_length.append(petal_l)
         petal_width.append(petal_w)
         iris_class.append(iris_c)
+
+        print(iris_c)
+
 
     # printing out for testing
     # print(sepal_length)

@@ -18,11 +18,9 @@ with open('./data/fishers-data-set.csv') as csvfile:
     petal_length = []
     petal_width = []
     iris_class = []
-
-
+    fishers_set = []
     # loops for the size of the CSV file
     for row in readCSV:
-
         # temporary values for appending to the arrays
         # the first row '[0]' will be the sepal length
         # the second will be sepal width, etc.
@@ -39,8 +37,9 @@ with open('./data/fishers-data-set.csv') as csvfile:
         petal_width.append(petal_w)
         iris_class.append(iris_c)
 
-        print(iris_c)
-
-
-    # printing out for testing
-    # print(sepal_length)
+        # a dictionary of arrays
+        fishers_set = [{"sepal_length" : sepal_length,
+         "sepal_width " : sepal_width, 
+         "petal_length" : petal_length, 
+         "petal_width" : petal_width, 
+         "iris_class" : iris_class}]

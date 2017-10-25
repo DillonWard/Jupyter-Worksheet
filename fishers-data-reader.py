@@ -1,9 +1,13 @@
 # Read in the CSV Fisher's Iris data set and store it into a numpy array
 # Author: Dillonward2017@gmail.com
 # Date: 24/10/17
-
+# (1) Adapted from https://matplotlib.org/users/customizing.html
+# (2) Adapted from https://stackoverflow.com/questions/332289/how-do-you-change-the-size-of-figures-drawn-with-matplotlib
+# (3) Adapted from https://matplotlib.org/api/markers_api.html
+ 
 import numpy as np
 import csv
+import matplotlib.pyplot as pl # ref: (1)
 
 # Open the CSV file
 with open('./data/fishers-data-set.csv') as csvfile:
@@ -43,3 +47,24 @@ with open('./data/fishers-data-set.csv') as csvfile:
          "petal_length" : petal_length, 
          "petal_width" : petal_width, 
          "iris_class" : iris_class}]
+
+
+# Plot the data read in from the CSV file to a graph
+# Date: 25/10/17
+
+# Used for setting the size of the figure to be displayed - ref: (2)
+pl.rcParams['figure.figsize'] = 10, 5
+
+# defines which parameters are going to be plotted onto the graph
+# the marker is only for changing what the plots look like - ref: (3)
+pl.scatter(sepal_length, sepal_width, marker='.')
+
+# the title will be displayed above the graph
+pl.title('Sepal Length vs Sepal Width')
+
+# define the x/y labels that are to be plotted
+pl.xlabel('Sepal Length')
+pl.ylabel('Sepal Width')
+
+# display the graph
+pl.show()

@@ -93,22 +93,34 @@ pl.legend()
 pl.show()
 
 
-i= np.linspace(0,8,1000)
-# np.polyfit only accepts pure numeric values, so the values are converted to floats - ref: (5)
-line = np.polyfit(np.asarray(petal_length).astype(float), np.asarray(petal_width).astype(float), 1) 
-lp = line[0] * i + line[1]
+def bestFitline(l, w): # made into function to prevent repeating code
+    pl.rcParams['figure.figsize'] = 16, 8
+    i = np.linspace(0, 8, 1000)
 
-pl.scatter(np.asarray(petal_length).astype(float),
-           np.asarray(petal_width).astype(float), 
-           marker='.', 
-           label='Original Data in scatterplot', color = 'r')
+    line = np.polyfit(np.asarray(l).astype(float), np.asarray(w).astype(float), 1)
+    lp = line[0] * i + line[1]
 
-pl.plot(i,lp,'g-',label='Best fit line')
-# display the graph
-pl.legend()
-pl.show()
+    pl.scatter(np.asarray(l).astype(float),
+               np.asarray(w).astype(float), 
+               marker='.', 
+               label='Original Data in scatterplot', color = 'r')
 
-# stats.lineregress computes a least-squares regression for two sets of measurements - ref: (6)
-r_squared = stats.linregress(np.asarray(petal_length).astype(float), np.asarray(petal_width).astype(float))
-# slope[0], intercept[1], r_value[2], p_value[3], std_err[4] = stats.lineregress(x, y)
-print("Slope: ", r_squared[0], "\nIntercept: ", r_squared[1], "\nR Value: ", r_squared[2])
+    pl.plot(i,lp,'g-',label='Best fit line')
+    pl.legend()
+    pl.show()
+    
+bestFitline(petal_length,petal_width)
+
+def calc_rsquared(l, w): # reuse to prevent repitition
+    # stats.lineregress computes a least-squares regression for two sets of measurements - ref: (6)
+    r_squared = stats.linregress(np.asarray(l).astype(float), np.asarray(w).astype(float))
+    # slope[0], intercept[1], r_value[2], p_value[3], std_err[4] = stats.lineregress(x, y)
+    print("Slope: ", r_squared[0], "\nIntercept: ", r_squared[1], "\nR Value: ", r_squared[2])
+calc_rsquared(petal_length, petal_width)
+
+
+new_length, new_width = petal_length[0:25], petal_width[0:25] # x and y have to be the same size
+bestFitline(new_length, new_width)
+
+calc_rsquared(new_length, new_width)
+

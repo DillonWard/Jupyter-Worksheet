@@ -5,6 +5,7 @@
 # (2) Adapted from https://stackoverflow.com/questions/332289/how-do-you-change-the-size-of-figures-drawn-with-matplotlib
 # (3) Adapted from https://matplotlib.org/api/markers_api.html
 # (4) Adapted from http://seaborn.pydata.org/examples/scatterplot_matrix.html
+# (5) Adapted from https://stackoverflow.com/questions/45279174/typeerror-unsupported-operand-types-for-timestamp-and-float
  
 import numpy as np
 import csv
@@ -80,11 +81,28 @@ pl.scatter(sepal_length, sepal_width, c=[colors[i] for i in iris_class], label=[
 handles = [mpatches.Patch(color=colour, label=label) for label, colour in colors.items()]
 
 pl.legend(handles=handles)
+pl.show()
 
 # ref (4)
 seaborn.set(style="ticks")
 df = seaborn.load_dataset("iris")
 seaborn.pairplot(df, hue="species")
-
-# display the graph
+pl.legend()
 pl.show()
+
+
+pl.rcParams['figure.figsize'] = 16, 8
+i = np.linspace(0, 8, 1000)
+
+line = np.polyfit(np.asarray(petal_length).astype(float), np.asarray(petal_width).astype(float), 1)
+lp = line[0] * i + line[1]
+
+pl.scatter(np.asarray(petal_length).astype(float),
+           np.asarray(petal_width).astype(float), 
+           marker='.', 
+           label='Original Data in scatterplot', color = 'r')
+
+pl.plot(i,lp,'g-',label='Best fit line')
+pl.legend()
+pl.show()
+

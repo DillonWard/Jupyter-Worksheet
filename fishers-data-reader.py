@@ -4,11 +4,13 @@
 # (1) Adapted from https://matplotlib.org/users/customizing.html
 # (2) Adapted from https://stackoverflow.com/questions/332289/how-do-you-change-the-size-of-figures-drawn-with-matplotlib
 # (3) Adapted from https://matplotlib.org/api/markers_api.html
+# (4) Adapted from http://seaborn.pydata.org/examples/scatterplot_matrix.html
  
 import numpy as np
 import csv
 import matplotlib.pyplot as pl # ref: (1)
 import matplotlib.patches as mpatches
+import seaborn
 
 # Open the CSV file
 with open('./data/fishers-data-set.csv') as csvfile:
@@ -58,14 +60,31 @@ pl.rcParams['figure.figsize'] = 16, 8
 
 # defines which parameters are going to be plotted onto the graph
 # the marker is only for changing what the plots look like - ref: (3)
-pl.scatter(sepal_length, sepal_width, marker='.')
+# pl.scatter(sepal_length, sepal_width, marker='.')
 
 # the title will be displayed above the graph
-pl.title('Sepal Length vs Sepal Width')
+# pl.title('Sepal Length vs Sepal Width')
 
 # define the x/y labels that are to be plotted
+# pl.xlabel('Sepal Length')
+# pl.ylabel('Sepal Width')
+
+colors = {'Iris-setosa': 'r', 'Iris-versicolor': 'g', 'Iris-virginica': 'b'}
+
+pl.title('Sepal Length vs Sepal Width')
+
 pl.xlabel('Sepal Length')
 pl.ylabel('Sepal Width')
+
+pl.scatter(sepal_length, sepal_width, c=[colors[i] for i in iris_class], label=[colors[i] for i in colors])
+handles = [mpatches.Patch(color=colour, label=label) for label, colour in colors.items()]
+
+pl.legend(handles=handles)
+
+# ref (4)
+seaborn.set(style="ticks")
+df = seaborn.load_dataset("iris")
+seaborn.pairplot(df, hue="species")
 
 # display the graph
 pl.show()

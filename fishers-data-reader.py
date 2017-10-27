@@ -6,12 +6,14 @@
 # (3) Adapted from https://matplotlib.org/api/markers_api.html
 # (4) Adapted from http://seaborn.pydata.org/examples/scatterplot_matrix.html
 # (5) Adapted from https://stackoverflow.com/questions/45279174/typeerror-unsupported-operand-types-for-timestamp-and-float
- 
+# (6) Adapted from https://docs.scipy.org/doc/scipy-0.15.1/reference/generated/scipy.stats.linregress.html
+
 import numpy as np
 import csv
 import matplotlib.pyplot as pl # ref: (1)
 import matplotlib.patches as mpatches
 import seaborn
+from scipy import stats
 
 # Open the CSV file
 with open('./data/fishers-data-set.csv') as csvfile:
@@ -83,7 +85,7 @@ handles = [mpatches.Patch(color=colour, label=label) for label, colour in colors
 pl.legend(handles=handles)
 pl.show()
 
-# ref (4)
+# ref: (4)
 seaborn.set(style="ticks")
 df = seaborn.load_dataset("iris")
 seaborn.pairplot(df, hue="species")
@@ -91,10 +93,9 @@ pl.legend()
 pl.show()
 
 
-pl.rcParams['figure.figsize'] = 16, 8
-i = np.linspace(0, 8, 1000)
-
-line = np.polyfit(np.asarray(petal_length).astype(float), np.asarray(petal_width).astype(float), 1)
+i= np.linspace(0,8,1000)
+# np.polyfit only accepts pure numeric values, so the values are converted to floats - ref: (5)
+line = np.polyfit(np.asarray(petal_length).astype(float), np.asarray(petal_width).astype(float), 1) 
 lp = line[0] * i + line[1]
 
 pl.scatter(np.asarray(petal_length).astype(float),
@@ -103,6 +104,11 @@ pl.scatter(np.asarray(petal_length).astype(float),
            label='Original Data in scatterplot', color = 'r')
 
 pl.plot(i,lp,'g-',label='Best fit line')
+# display the graph
 pl.legend()
 pl.show()
 
+# stats.lineregress computes a least-squares regression for two sets of measurements - ref: (6)
+r_squared = stats.linregress(np.asarray(petal_length).astype(float), np.asarray(petal_width).astype(float))
+# slope[0], intercept[1], r_value[2], p_value[3], std_err[4] = stats.lineregress(x, y)
+print("Slope: ", r_squared[0], "\nIntercept: ", r_squared[1], "\nR Value: ", r_squared[2])
